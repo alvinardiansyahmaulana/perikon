@@ -22,16 +22,13 @@ class AuthController extends Controller
     {
         $data = $this->userService->create($request->validated());
         
-        if (!$data['token']) {
-            return responseError($data);
-        }
-
-        return responseSuccess($data);
+        return $data['token'] ? responseSuccess($data) : responseError($data);
     }
 
     public function login(UserLoginRequest $request): Response
     {
         if (!auth()->attempt($request->validated())) {
+
             return responseError('Incorrect Detail, please try again');
         }
 
