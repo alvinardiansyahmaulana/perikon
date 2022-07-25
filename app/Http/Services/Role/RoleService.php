@@ -4,7 +4,6 @@ namespace App\Http\Services\Role;
 
 use App\Models\Role;
 use App\Http\Resources\Role\RoleResource;
-use illuminate\Support\Collection;
 use Exception;
 
 class RoleService
