@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Role\RoleController;
+use App\Http\Controllers\Api\ContractorWorkPermits\StarterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,4 +20,11 @@ use App\Http\Controllers\Api\Role\RoleController;
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
-Route::apiResource('role', RoleController::class)->middleware('auth:api');
+Route::apiResource('roles', RoleController::class)->middleware('auth:api');
+
+Route::group([
+    'prefix' => 'contractor-work-permits',
+    'middleware' => 'auth:api'
+], function () {
+    Route::apiResource('starters', StarterController::class);
+});
