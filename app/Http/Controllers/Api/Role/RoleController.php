@@ -7,7 +7,6 @@ use Illuminate\Http\Response;
 use App\Http\Requests\Role\RoleRequest;
 use App\Http\Services\Role\RoleService;
 use illuminate\Support\Collection;
-use Exception;
 
 class RoleController extends Controller
 {
