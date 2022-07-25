@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Api\Role;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
+use App\Models\Role;
 use App\Http\Requests\Role\RoleRequest;
 use App\Http\Services\Role\RoleService;
-use illuminate\Support\Collection;
 
 class RoleController extends Controller
 {
@@ -19,36 +19,26 @@ class RoleController extends Controller
 
     public function index(): Response
     {
-        $roles = $this->roleService->getAllRole();
-
-        return responseWithData($roles); 
+        return responseWithData($this->roleService->getAllRole()); 
     }
 
     public function store(RoleRequest $request): Response
     {
-        $role = $this->roleService->create($request->validated());
+        return responseWithData($this->roleService->create($request->validated()));
+    }
 
+    public function show(Role $role): Response
+    {
         return responseWithData($role);
     }
 
-    public function show($id): Response
+    public function update(RoleRequest $request, Role $role): Response
     {
-        $role = $this->roleService->find($id);
-
-        return responseWithData($role);
+        return responseWithData($this->roleService->update($request->validated(), $role));
     }
 
-    public function update(RoleRequest $request, $id)
+    public function destroy(Role $role): Response
     {
-        $role = $this->roleService->update($request->validated(), $id);
-
-        return responseAfterUpdate($role);
-    }
-
-    public function destroy($id)
-    {
-        $role = $this->roleService->delete($id);
-
-        return responseAfterDelete($role);
+        return responseAfterDelete($this->roleService->delete($role));
     }
 }

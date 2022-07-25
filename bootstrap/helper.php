@@ -3,6 +3,9 @@
 use illuminate\Support\Collection;
 use Illuminate\Http\Response;
 
+const DELETE_MESSAGE = 'Data deleted.';
+const API_TOKEN = 'API Token';
+
 function responseError(mixed $message): Response
 {
     return response([
@@ -21,7 +24,7 @@ function responseSuccess(mixed $data): Response
 
 function getUserAccessToken(): string
 {
-    return auth()->user()->createToken('API Token')->accessToken;
+    return auth()->user()->createToken(API_TOKEN)->accessToken;
 }
 
 function isDataCollection(mixed $data): bool
@@ -29,22 +32,17 @@ function isDataCollection(mixed $data): bool
     return ($data instanceof Collection);
 }
 
-function responseWithData(mixed $data): Response
-{
-    return isDataCollection($data) ? responseSuccess($data) : responseError($data);
-}
-
 function isDataNotErrorMessage(mixed $data): bool
 {
     return (!is_string($data));
 }
 
-function responseAfterDelete(mixed $data): Response
+function responseWithData(mixed $data): Response
 {
-    return isDataNotErrorMessage($data) ? responseSuccess('Deleted.') : responseError($data); 
+    return isDataCollection($data) ? responseSuccess($data) : responseError($data);
 }
 
-function responseAfterUpdate(mixed $data): Response
+function responseAfterDelete(mixed $data): Response
 {
-    return isDataNotErrorMessage($data) ? responseSuccess('Updated.') : responseError($data);
+    return isDataNotErrorMessage($data) ? responseSuccess(DELETE_MESSAGE) : responseError($data); 
 }

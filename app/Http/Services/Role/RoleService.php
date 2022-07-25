@@ -30,33 +30,22 @@ class RoleService
         }
     }
 
-    public function find(string $id): RoleResource|string
+    public function update(array $data, Role $role): RoleResource|string
     {
         try {
 
-            return new RoleResource(Role::find($id));
+            return new RoleResource($role->update($data));
         } catch (Exception $error) {
 
             return $error->getMessage();
         }
     }
 
-    public function update(mixed $data, string $id): bool|string
+    public function delete(Role $role): bool|string
     {
         try {
 
-            return Role::find($id)->update($data);
-        } catch (Exception $error) {
-
-            return $error->getMessage();
-        }
-    }
-
-    public function delete(string $id): bool|string
-    {
-        try {
-
-            return Role::find($id)->delete();
+            return $role->delete();
         } catch (Exception $error) {
 
             return $error->getMessage();
